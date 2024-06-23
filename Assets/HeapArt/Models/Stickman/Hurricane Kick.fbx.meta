@@ -1,0 +1,259 @@
+fileFormatVersion: 2
+guid: b303ac35691c6bb44b77519466e788be
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    rigImportErrors: "Invalid Avatar Rig Configuration. Missing or invalid transform:\n\tRequired
+      human bone 'RightHand' not found\n"
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: hurricane_kick
+      takeName: mixamo.com
+      internalID: -203655887218126122
+      firstFrame: 0
+      lastFrame: 110
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: Hurricane Kick(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Stickman_Pelvis
+      parentName: Hurricane Kick(Clone)
+      position: {x: 0.0008680187, y: 0.63609815, z: 0.075640135}
+      rotation: {x: 0.25909075, y: -0.43157586, z: -0.6546072, w: 0.56400687}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Stickman_LThigh
+      parentName: Stickman_Pelvis
+      position: {x: -0.013367999, y: -0.007647, z: 0.139845}
+      rotation: {x: -0.015451981, y: 0.99687266, z: 0.07741857, w: 0.0035261507}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Stickman_LCalf
+      parentName: Stickman_LThigh
+      position: {x: -0.261166, y: 0, z: 0}
+      rotation: {x: -0.062465716, y: 0.0030506314, z: 0.092401154, w: 0.9937559}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Stickman_LFoot
+      parentName: Stickman_LCalf
+      position: {x: -0.324341, y: 0, z: 0}
+      rotation: {x: 0.04033933, y: -0.13820866, z: -0.989581, w: 0.0008342279}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Stickman_RThigh
+      parentName: Stickman_Pelvis
+      position: {x: -0.013367999, y: -0.007647, z: -0.139845}
+      rotation: {x: -0.045297146, y: 0.9836584, z: -0.04090309, w: -0.1693852}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Stickman_RCalf
+      parentName: Stickman_RThigh
+      position: {x: -0.261166, y: 0, z: 0}
+      rotation: {x: -0.027265238, y: -0.054218143, z: 0.2754277, w: 0.9594043}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Stickman_RFoot
+      parentName: Stickman_RCalf
+      position: {x: -0.324341, y: 0, z: 0}
+      rotation: {x: 0.09784616, y: 0.13881548, z: -0.3649296, w: 0.915414}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Stickman_Spine1
+      parentName: Stickman_Pelvis
+      position: {x: -0.039065998, y: -0.002989, z: 0}
+      rotation: {x: 0.06979384, y: 0.045758545, z: -0.16731504, w: 0.98236483}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Stickman_Spine2
+      parentName: Stickman_Spine1
+      position: {x: -0.162751, y: 0, z: 0}
+      rotation: {x: 0.09709187, y: 0.045827847, z: 0.13183235, w: 0.9854407}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Stickman_Spine3
+      parentName: Stickman_Spine2
+      position: {x: -0.138642, y: 0, z: 0}
+      rotation: {x: 0.10552528, y: 0.019784631, z: 0.046584338, w: 0.9931279}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Stickman_Spine4
+      parentName: Stickman_Spine3
+      position: {x: -0.148988, y: 0, z: 0}
+      rotation: {x: 0.105481885, y: 0.020015124, z: -0.12381786, w: 0.9864797}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Stickman_Ribcage
+      parentName: Stickman_Spine4
+      position: {x: -0.200767, y: 0, z: 0}
+      rotation: {x: 0.10270557, y: 0.031282466, z: -0.058702204, w: 0.99248534}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Stickman_LCollarbone
+      parentName: Stickman_Ribcage
+      position: {x: 0.057571996, y: -0.050142, z: 0.085563}
+      rotation: {x: -0.17916062, y: 0.7063144, z: 0.025839189, w: 0.6843638}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Stickman_LUpperarm
+      parentName: Stickman_LCollarbone
+      position: {x: -0.169655, y: 0, z: 0}
+      rotation: {x: 0.04533436, y: -0.10239478, z: -0.09848648, w: 0.98881775}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Stickman_LForearm
+      parentName: Stickman_LUpperarm
+      position: {x: -0.259121, y: 0.000001, z: -0.000003}
+      rotation: {x: -0.23092349, y: 0.006790343, z: -0.026526289, w: 0.97258663}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Stickman_LPalm
+      parentName: Stickman_LForearm
+      position: {x: -0.26712498, y: 0, z: -0.000003}
+      rotation: {x: -0.6642645, y: -0.12206423, z: 0.046351478, w: 0.7360058}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Stickman_RCollarbone
+      parentName: Stickman_Ribcage
+      position: {x: 0.057571996, y: -0.050142, z: -0.085563}
+      rotation: {x: 0.03930227, y: -0.7363059, z: 0.14006674, w: 0.6608255}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Stickman_RUpperarm
+      parentName: Stickman_RCollarbone
+      position: {x: -0.169655, y: 0, z: 0}
+      rotation: {x: 0.03495311, y: -0.03963677, z: 0.12793568, w: 0.99037355}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Stickman_RForearm
+      parentName: Stickman_RUpperarm
+      position: {x: -0.259121, y: -0.000001, z: -0.000003}
+      rotation: {x: 0.3263605, y: 0.020692449, z: 0.020560399, w: 0.9447952}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Stickman_RPalm
+      parentName: Stickman_RForearm
+      position: {x: -0.26712498, y: 0, z: -0.000003}
+      rotation: {x: 0.6642753, y: 0.12205465, z: 0.0463594, w: 0.7359972}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Stickman_Neck1
+      parentName: Stickman_Ribcage
+      position: {x: -0.000679, y: -0.002989, z: 0}
+      rotation: {x: 0.056346226, y: 0.04661342, z: 0.033057075, w: 0.99677455}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Stickman_Neck2
+      parentName: Stickman_Neck1
+      position: {x: -0.037829, y: 0, z: 0}
+      rotation: {x: 0.029831147, y: -0.019053055, z: -0.084778056, w: 0.99577093}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Stickman_Head
+      parentName: Stickman_Neck2
+      position: {x: -0.037829, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0.11005959, w: 0.99392503}
+      scale: {x: 1, y: 1, z: 1}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
