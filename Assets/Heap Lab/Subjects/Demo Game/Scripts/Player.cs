@@ -8,11 +8,16 @@ public class Player : MonoBehaviour
     public Rigidbody Rb;
     public Renderer Renderer;
     public Animator Animator;
-   
+    public Shooter Shooter;
+
+    public Transform MasterCamLookObj;
+    public Transform SlaveCamLookObj;
+
+
     public float RunSpeed = 5f;
     public float JumpHeight = 1f;
     public float JumpSpeed = 1f;
-    public float RotationSpeed = 1f;
+    public float RotationSpeed = 5f;
 
     public float Health = 1f;
 
@@ -22,6 +27,7 @@ public class Player : MonoBehaviour
 
     private Vector3 velocity;
 
+
     public void Idle()
     {
         Animator.SetTrigger("idle");
@@ -30,10 +36,10 @@ public class Player : MonoBehaviour
     public void Rotate(Vector3 axis)
     {
         //RotateCharacterToMouse();
-        RotateCharacterToPosition();
+        //RotateCharacterToPosition(axis);
     }
 
-
+   
 
     void RotateCharacterToMouse()
     {
@@ -53,13 +59,11 @@ public class Player : MonoBehaviour
 
         movingTr.rotation = Quaternion.Slerp(movingTr.rotation, targetRotation, Time.deltaTime * 5f);
 
-
     }
 
     void RotateCharacterToPosition(Vector3 pos)
     {
         Transform movingTr = transform.parent;
-
 
         Vector3 characterPosition = movingTr.position;
 
@@ -76,18 +80,27 @@ public class Player : MonoBehaviour
     }
 
 
-    public void Run(Vector3 velocity)
+    public void Run(Vector3 velocity, float rotation = 0)
     {
         Animator.SetFloat("run", velocity.magnitude);
-        Move(velocity);
+        Move(velocity, rotation);
     }
 
-    private void Move(Vector3 velocity)
+    private void Move(Vector3 velocity, float rotation)
     {
         this.velocity = velocity;
         Transform movingTr = transform.parent;
         Vector3 deltaPosition = velocity * Time.deltaTime;
-        movingTr.position = movingTr.position + movingTr.forward * deltaPosition.z * RunSpeed;
+        movingTr.position = movingTr.position + deltaPosition * RunSpeed;
+
+        if(rotation != 0)
+        {
+            transform.eulerAngles += Vector3.up * rotation * Time.deltaTime * RotationSpeed;
+        }
+        else
+        {
+            MasterCamLookObj.transform.position = Vector3.Lerp(MasterCamLookObj.transform.position, SlaveCamLookObj.transform.position, Time.deltaTime * 2f);
+        }
     }
 
     public void Jump()
@@ -138,7 +151,7 @@ public class Player : MonoBehaviour
                 transform.localPosition = transform.localPosition + Vector3.down * Time.deltaTime * JumpSpeed;
 
             }
-            Move(velocity);
+            Move(velocity,0f);
 
             yield return null;
         }

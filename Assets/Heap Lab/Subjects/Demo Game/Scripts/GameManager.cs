@@ -67,6 +67,14 @@ public class GameManager : MonoBehaviour
                 SaveProgress();
             }
         }
+
+        Transform close_enemy = FindClosestEnemy(Shooter.Range);
+        MyPlayer.Shooter.ShootingActive = close_enemy != null;
+
+        if (close_enemy != null)
+        {
+            //MyPlayer.Rotate(close_enemy.transform.position);
+        }
     }
 
     private void SaveProgress()
@@ -108,10 +116,15 @@ public class GameManager : MonoBehaviour
     }
 
 
-    private Transform FindClosestEnemy()
+    private Transform FindClosestEnemy(float range)
     {
         int minDistIndex = -1;
         float MinDistance = 1000000000;
+
+        if(EnemyPool.ActivePoolObjects.Count == 0)
+        {
+            return null;
+        }
 
         for (int i = 0; i < EnemyPool.ActivePoolObjects.Count; i++)
         {
@@ -124,6 +137,9 @@ public class GameManager : MonoBehaviour
                 minDistIndex = i;
             }
         }
+
+        if (MinDistance > range)
+            return null;
 
         return EnemyPool.ActivePoolObjects[minDistIndex].transform;
     }

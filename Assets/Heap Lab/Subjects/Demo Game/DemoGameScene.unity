@@ -2990,10 +2990,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d739430134737164792843304744f86e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 1
-  FollowTarget: {fileID: 1232030386}
-  LookTarget: {fileID: 1254271457}
+  Speed: 0.5
+  FollowTarget: {fileID: 2041256225}
+  LookTarget: {fileID: 2041256225}
   Offset: {x: 0, y: 10, z: -14}
+  AffectFromTargetRotation: 1
 --- !u!4 &1109486504
 Transform:
   m_ObjectHideFlags: 0
@@ -3485,6 +3486,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2113749000}
+  - {fileID: 1254271457}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1254271456
@@ -3497,7 +3499,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1254271457}
   m_Layer: 0
-  m_Name: Look
+  m_Name: LookMaster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3511,12 +3513,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1254271456}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 2.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2113749000}
+  m_Father: {fileID: 1232030386}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1288106959
 GameObject:
@@ -4206,7 +4208,7 @@ Transform:
   m_GameObject: {fileID: 1638685957}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.92602, y: 9.999992, z: -11.882475}
+  m_LocalPosition: {x: 11.92602, y: 9.999992, z: -11.88247}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5643,6 +5645,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 79521875}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2041256224
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2041256225}
+  m_Layer: 0
+  m_Name: LookSlave
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2041256225
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2041256224}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 2.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2113749000}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2091769547
 GameObject:
   m_ObjectHideFlags: 0
@@ -6003,7 +6036,7 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1476597917835573332, guid: c4a4b5e6f07c7cc40beac7825d9d510d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1254271457}
+      addedObject: {fileID: 2041256225}
     - targetCorrespondingSourceObject: {fileID: 2610824516043370446, guid: c4a4b5e6f07c7cc40beac7825d9d510d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2012585489}
@@ -6083,11 +6116,14 @@ MonoBehaviour:
   Rb: {fileID: 2113749002}
   Renderer: {fileID: 2113749003}
   Animator: {fileID: 2113749004}
+  Shooter: {fileID: 2113749007}
+  MasterCamLookObj: {fileID: 1254271457}
+  SlaveCamLookObj: {fileID: 2041256225}
   RunSpeed: 5
   JumpHeight: 4
   JumpSpeed: 8
-  RotationSpeed: 1
-  Health: 1
+  RotationSpeed: 150
+  Health: 100
   IsIdle: 0
   IsRunning: 0
   IsJumping: 0
@@ -6126,7 +6162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BulletPool: {fileID: 21673887}
   BulletSpawnRef: {fileID: 1213307024}
-  Period: 0.5
+  Period: 0.025
   ShootingActive: 1
   Bullets: []
 --- !u!1660057539 &9223372036854775807

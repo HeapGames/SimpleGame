@@ -8,30 +8,32 @@ using static UnityEngine.GraphicsBuffer;
 public class InputHandler : MonoBehaviour
 {
     public Player Player;
-    Vector3 deltaX = Vector3.zero;
-    Vector3 rotAxis = Vector3.zero;
+    Vector3 delta = Vector3.zero;
+    float rotation = 0f;
     void Update()
     {
-        Transform movingTr = Player.transform.parent;
-        deltaX = Vector3.zero;
-        rotAxis = Vector3.zero;
+        Transform movingTr = Player.transform;
+        delta = Vector3.zero;
+        rotation = 0f;
         // Check keyboard inputs
         if (Input.GetKey(KeyCode.W))
         {
-            deltaX = transform.forward;
+            delta = movingTr.forward;
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            deltaX = -transform.forward;
+            delta = -movingTr.forward;
         }
 
         if (Input.GetKey(KeyCode.A))
         {
-            rotAxis = Vector3.down;
+            delta -= movingTr.right;
+            rotation = -1f;
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            rotAxis = Vector3.up;
+            delta += movingTr.right;
+            rotation = 1f;
         }
 
         if (Input.GetKey(KeyCode.Space))
@@ -46,8 +48,7 @@ public class InputHandler : MonoBehaviour
 
         if (!Player.IsJumping)
         {
-            Player.Run(deltaX);
-            //Player.Rotate(rotAxis);
+            Player.Run(delta,rotation);
         }
 
 

@@ -13,7 +13,9 @@ public class Shooter : MonoBehaviour
 
     public static float Damage = 30f;
 
-    public bool ShootingActive = true;
+    public static float Range = 20f;
+
+    public bool ShootingActive = false;
 
     public List<Bullet> Bullets;
 
