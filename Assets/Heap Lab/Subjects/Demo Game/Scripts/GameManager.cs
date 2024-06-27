@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
             enemy.SetTarget(MyPlayer.transform);
             enemy.transform.position = spawnPlace.transform.position; // + Vector3.down * 3f;
             enemyObj.SetActive(true);
+            enemy.OnDied += OnEnemyKill;
         }
 
         HealthBar.fillAmount = MyPlayer.Health;
@@ -66,8 +67,8 @@ public class GameManager : MonoBehaviour
                 SaveProgress();
             }
         }
-
     }
+
     private void SaveProgress()
     {
         PlayerPrefs.SetInt("high_score", score);
@@ -77,6 +78,13 @@ public class GameManager : MonoBehaviour
     private void ShowRestartPopup()
     {
 
+    }
+
+    private void OnEnemyKill(Enemy enemy)
+    {
+        enemy.OnDied -= OnEnemyKill;
+        enemy.ResetBeforePool();
+        EnemyPool.ReturnPoolObject(enemy.gameObject);
     }
 
     private Transform FindClosestSpawnPlace()
@@ -99,5 +107,26 @@ public class GameManager : MonoBehaviour
         return EnemySpawnPlace[minDistIndex];
     }
 
-   
+
+    private Transform FindClosestEnemy()
+    {
+        int minDistIndex = -1;
+        float MinDistance = 1000000000;
+
+        for (int i = 0; i < EnemyPool.ActivePoolObjects.Count; i++)
+        {
+            var enemy = EnemyPool.ActivePoolObjects[i];
+            float dist = Vector3.Distance(enemy.transform.position, MyPlayer.transform.position);
+
+            if (dist < MinDistance)
+            {
+                MinDistance = dist;
+                minDistIndex = i;
+            }
+        }
+
+        return EnemyPool.ActivePoolObjects[minDistIndex].transform;
+    }
+
+
 }

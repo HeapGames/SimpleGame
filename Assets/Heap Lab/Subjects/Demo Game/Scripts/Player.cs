@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public Rigidbody Rb;
     public Renderer Renderer;
     public Animator Animator;
+   
     public float RunSpeed = 5f;
     public float JumpHeight = 1f;
     public float JumpSpeed = 1f;
@@ -28,7 +29,8 @@ public class Player : MonoBehaviour
 
     public void Rotate(Vector3 axis)
     {
-        RotateCharacterToMouse();
+        //RotateCharacterToMouse();
+        RotateCharacterToPosition();
     }
 
 
@@ -49,13 +51,27 @@ public class Player : MonoBehaviour
 
         Quaternion targetRotation = Quaternion.LookRotation(directionToMouse);
 
-        float angle_diff = Mathf.Abs( movingTr.eulerAngles.y - targetRotation.eulerAngles.y);
-        Debug.Log(angle_diff);
-        if (angle_diff > 10f)
-        {
-        }
         movingTr.rotation = Quaternion.Slerp(movingTr.rotation, targetRotation, Time.deltaTime * 5f);
 
+
+    }
+
+    void RotateCharacterToPosition(Vector3 pos)
+    {
+        Transform movingTr = transform.parent;
+
+
+        Vector3 characterPosition = movingTr.position;
+
+        pos.y = characterPosition.y;
+
+        Vector3 directionToMouse = pos - characterPosition;
+
+        Quaternion targetRotation = Quaternion.LookRotation(directionToMouse);
+
+        float angle_diff = Mathf.Abs(movingTr.eulerAngles.y - targetRotation.eulerAngles.y);
+
+        movingTr.rotation = Quaternion.Slerp(movingTr.rotation, targetRotation, Time.deltaTime * 5f);
 
     }
 

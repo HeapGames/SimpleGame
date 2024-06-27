@@ -47,7 +47,7 @@ public class InputHandler : MonoBehaviour
         if (!Player.IsJumping)
         {
             Player.Run(deltaX);
-            Player.Rotate(rotAxis);
+            //Player.Rotate(rotAxis);
         }
 
 

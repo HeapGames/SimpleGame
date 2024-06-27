@@ -7,6 +7,7 @@ public class ObjectPool : MonoBehaviour
     public GameObject ObjectVariant;
     public int PoolSize = 4;
     public List<GameObject> PoolObjects = new();
+    public List<GameObject> ActivePoolObjects = new();
 
     void Awake()
     {
@@ -22,6 +23,7 @@ public class ObjectPool : MonoBehaviour
     {
         GameObject obj = PoolObjects[0];
         PoolObjects.RemoveAt(0);
+        ActivePoolObjects.Add(obj);
         return obj;
     }
 
@@ -29,6 +31,7 @@ public class ObjectPool : MonoBehaviour
     {
         obj.SetActive(false);
         PoolObjects.Add(obj);
+        ActivePoolObjects.Remove(obj);
     }
 
 }
