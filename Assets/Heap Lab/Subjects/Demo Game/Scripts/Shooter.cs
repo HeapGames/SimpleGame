@@ -13,34 +13,32 @@ public class Shooter : MonoBehaviour
 
     public static float Damage = 30f;
 
-    public static float Range = 20f;
+    public static float Range = 500f;
 
     public bool ShootingActive = false;
 
     public List<Bullet> Bullets;
 
-    private void Start()
-    {
-        StartCoroutine(Shoot());
-    }
+    float timer = 0;
 
-
-    private IEnumerator Shoot()
+    private void Update()
     {
-        float timer = 0;
-        while (ShootingActive)
+
+        if (ShootingActive)
         {
-            while(timer < Period)
+            if (timer < Period)
             {
                 timer += Time.deltaTime;
-                yield return null;
             }
-
-            MoveBullet();
-
-            timer = 0;
+            else
+            {
+                MoveBullet();
+                timer = 0;
+            }
         }
     }
+
+
 
     private void MoveBullet()
     {

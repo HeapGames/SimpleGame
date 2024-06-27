@@ -70,11 +70,6 @@ public class GameManager : MonoBehaviour
 
         Transform close_enemy = FindClosestEnemy(Shooter.Range);
         MyPlayer.Shooter.ShootingActive = close_enemy != null;
-
-        if (close_enemy != null)
-        {
-            //MyPlayer.Rotate(close_enemy.transform.position);
-        }
     }
 
     private void SaveProgress()

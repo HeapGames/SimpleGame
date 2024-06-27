@@ -6162,8 +6162,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BulletPool: {fileID: 21673887}
   BulletSpawnRef: {fileID: 1213307024}
-  Period: 0.025
-  ShootingActive: 1
+  Period: 0.1
+  ShootingActive: 0
   Bullets: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
