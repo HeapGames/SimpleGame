@@ -9,9 +9,9 @@ public class Shooter : MonoBehaviour
 
     public Transform BulletSpawnRef;
 
-    public float Period = 1.0f;
+    public static float Period = 1.0f;
 
-    public static float Damage = 80f;
+    public static float Damage = 30f;
 
     public static float Range = 500f;
 
@@ -45,8 +45,10 @@ public class Shooter : MonoBehaviour
         var obj = BulletPool.GetPoolObject();
         obj.transform.position = BulletSpawnRef.position;
         obj.SetActive(true);
-        var bullet = obj.GetComponent<Bullet>();
+        obj.transform.localScale = Vector3.one * Player.Power;
+        Period = 0.1f / Player.Power;
 
+        var bullet = obj.GetComponent<Bullet>();
 
         if (bullet != null)
         {

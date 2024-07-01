@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public Renderer Renderer;
     public Animator Animator;
     public Shooter Shooter;
+    public ObjectPool CollectablePool;
 
     public Transform MasterCamLookObj;
     public Transform SlaveCamLookObj;
@@ -20,12 +21,21 @@ public class Player : MonoBehaviour
     public float RotationSpeed = 5f;
 
     public float Health = 1f;
+    public static float Power;
+
+    private float MaxRunSpeed = 10f;
+    private float MaxRotationSpeed = 15f;
 
     public bool IsIdle;
     public bool IsRunning;
     public bool IsJumping;
 
     private Vector3 velocity;
+
+    private void Awake()
+    {
+        Power = Shooter.Damage / 100f;
+    }
 
 
     public void Idle()
@@ -165,7 +175,32 @@ public class Player : MonoBehaviour
     {
         if(other.CompareTag("enemy"))
         {
-            Health -= Time.deltaTime * 0.1f;
+            Health -= Time.deltaTime *5f;
+        }
+        else if(other.CompareTag("collectable"))
+        {
+            Collectable collectable = other.gameObject.GetComponent<Collectable>();
+            switch (collectable.CollectableType)
+            {
+                case CollectableType.SpeedUp:
+                    RunSpeed += 0.5f;
+                    RotationSpeed += 2f;
+                    RunSpeed = Mathf.Clamp(RunSpeed, 1f, MaxRunSpeed);
+                    RotationSpeed = Mathf.Clamp(RotationSpeed, 1f, MaxRotationSpeed);
+                    break;
+                case CollectableType.PowerUp:
+                    Shooter.Damage += 2f;
+                    Shooter.Damage = Mathf.Clamp(Shooter.Damage, 1f, 100f);
+                    Power = Shooter.Damage / 100f;
+                    break;
+                case CollectableType.Healer:
+                    Health += 20f;
+                    Health = Mathf.Clamp(Health, 0f, 100f);
+                    break;
+                default:
+                    break;
+            }
+            CollectablePool.ReturnPoolObject(collectable.gameObject);
         }
     }
 }

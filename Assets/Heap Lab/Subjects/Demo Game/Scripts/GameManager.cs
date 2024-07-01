@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -20,10 +21,11 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI HighScoreText;
     public TextMeshProUGUI SpeedText;
     public TextMeshProUGUI PowerText;
+    public GameObject ReplayPanel;
 
     private float levelDuration;
     private float levelTimer;
-    private float enemySpawnPeriod = 0.75f;
+    private float enemySpawnPeriod = 3f;
     private float spawnTimeCounter = 0f;
 
     private int score = 0;
@@ -32,7 +34,9 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if(PlayerPrefs.HasKey("high_score"))
+        Time.timeScale = 1f;
+
+        if (PlayerPrefs.HasKey("high_score"))
         {
             highScore = PlayerPrefs.GetInt("high_score");
         }
@@ -44,11 +48,10 @@ public class GameManager : MonoBehaviour
         HighScoreText.text = highScore.ToString();
     }
 
-
     private void Update()
     {
         spawnTimeCounter += Time.deltaTime;
-        if(spawnTimeCounter >= enemySpawnPeriod)
+        if(spawnTimeCounter >= enemySpawnPeriod && EnemyPool.PoolObjects.Count > 0)
         {
             spawnTimeCounter = 0;
 
@@ -68,17 +71,7 @@ public class GameManager : MonoBehaviour
             enemy.OnDied += OnEnemyKill;
         }
 
-        HealthBar.fillAmount = MyPlayer.Health;
 
-        if(MyPlayer.Health <= 0f)
-        {
-            //Level end
-            if(score > highScore)
-            {
-                SaveProgress();
-                HighScoreText.text = highScore.ToString();
-            }
-        }
 
         Transform close_enemy = FindClosestEnemy(Shooter.Range);
         float angle = -1;
@@ -96,14 +89,28 @@ public class GameManager : MonoBehaviour
         MyPlayer.Shooter.ShootingActive = close_enemy != null & !MyPlayer.IsJumping;
 
         UpdateUI();
+
+        if (MyPlayer.Health <= 0f)
+        {
+            //Level end
+            if (score > highScore)
+            {
+                SaveProgress();
+                HighScoreText.text = highScore.ToString();
+            }
+
+            Time.timeScale = 0f;
+            ShowRestartPopup();
+        }
     }
 
     private void UpdateUI()
     {
         ScoreText.text = score.ToString();
         SpeedText.text = MyPlayer.RunSpeed.ToString("F1");
-        PowerText.text = (Shooter.Damage / 300).ToString("F1");
+        PowerText.text = Shooter.Damage.ToString("F1");
         UltiBar.fillAmount = totalKilledEnemy / 10;
+        HealthBar.fillAmount = MyPlayer.Health / 100f;
     }
 
     private void SaveProgress()
@@ -114,8 +121,14 @@ public class GameManager : MonoBehaviour
 
     private void ShowRestartPopup()
     {
-
+        ReplayPanel.SetActive(true);
     }
+
+    public void OnRestartButtonClicked()
+    {
+        SceneManager.LoadScene(0);
+    }
+
 
     private void OnEnemyKill(Enemy enemy)
     {
@@ -129,6 +142,8 @@ public class GameManager : MonoBehaviour
         {
             var collectable = CollectablePool.GetPoolObject();
             collectable.transform.position = enemy.transform.position;
+            int rand_type = Random.Range(0, 3);
+            collectable.GetComponent<Collectable>().SetType((CollectableType)rand_type);
             collectable.gameObject.SetActive(true);
         }
     }
