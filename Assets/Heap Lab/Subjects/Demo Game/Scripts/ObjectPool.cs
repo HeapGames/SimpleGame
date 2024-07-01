@@ -16,6 +16,7 @@ public class ObjectPool : MonoBehaviour
             GameObject poolObject = Instantiate(ObjectVariant);
             poolObject.SetActive(false);
             PoolObjects.Add(poolObject);
+            poolObject.transform.parent = transform;
         }
     }
 

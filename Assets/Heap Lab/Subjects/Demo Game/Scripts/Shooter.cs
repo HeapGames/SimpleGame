@@ -11,7 +11,7 @@ public class Shooter : MonoBehaviour
 
     public float Period = 1.0f;
 
-    public static float Damage = 30f;
+    public static float Damage = 80f;
 
     public static float Range = 500f;
 
@@ -50,22 +50,22 @@ public class Shooter : MonoBehaviour
 
         if (bullet != null)
         {
-            bullet.OnOutOfRange += OnBulletOutOfRange;
-            bullet.OnHit += OnBulletHit;
+            bullet.OnOutOfRange = OnBulletOutOfRange;
+            bullet.OnHit = OnBulletHit;
             bullet.Go(transform.forward);
         }
     }
 
     private void OnBulletHit(Bullet bullet)
     {
-        bullet.OnHit -= OnBulletHit;
+        //bullet.OnHit -= OnBulletHit;
         Bullets.Remove(bullet);
         BulletPool.ReturnPoolObject(bullet.gameObject);
     }
 
     private void OnBulletOutOfRange(Bullet bullet)
     {
-        bullet.OnOutOfRange -= OnBulletOutOfRange;
+        //bullet.OnOutOfRange -= OnBulletOutOfRange;
         Bullets.Remove(bullet);
         BulletPool.ReturnPoolObject(bullet.gameObject);
     }

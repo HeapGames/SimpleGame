@@ -26,6 +26,7 @@ public class Bullet : MonoBehaviour
             {
                 //out of range
                 OnOutOfRange?.Invoke(this);
+                deltaMove = 0f;
             }
         }
     }
@@ -45,7 +46,9 @@ public class Bullet : MonoBehaviour
             {
                 enemy.Hit();
                 OnHit?.Invoke(this);
+                deltaMove = 0f;
             }
         }
     }
+
 }

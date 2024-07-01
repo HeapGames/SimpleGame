@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour
 {
@@ -24,10 +25,21 @@ public class Enemy : MonoBehaviour
 
     public void Fight()
     {
-        Vector3 direction = (target.position - transform.position).normalized;
-        direction.y = 0;
-        transform.LookAt(transform.position + direction);
-        transform.position = transform.position + direction * Time.deltaTime * Speed;
+        Vector3 direction = (target.position - transform.position);
+
+        float dist = direction.magnitude;
+
+        Vector3 unitDirection = direction.normalized;
+        unitDirection.y = 0;
+        transform.LookAt(transform.position + unitDirection);
+
+        float speed = Speed;
+        if(dist < 8f)
+        {
+            speed = Speed * 0.6f;
+        }
+
+        transform.position = transform.position + unitDirection * Time.deltaTime * Speed;
     }
 
     public void Hit()

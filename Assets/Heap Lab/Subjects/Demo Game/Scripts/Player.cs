@@ -63,7 +63,7 @@ public class Player : MonoBehaviour
 
     void RotateCharacterToPosition(Vector3 pos)
     {
-        Transform movingTr = transform.parent;
+        Transform movingTr = transform;
 
         Vector3 characterPosition = movingTr.position;
 
@@ -82,6 +82,7 @@ public class Player : MonoBehaviour
 
     public void Run(Vector3 velocity, float rotation = 0)
     {
+        //Animator.SetLayerWeight(1, velocity.magnitude);
         Animator.SetFloat("run", velocity.magnitude);
         Move(velocity, rotation);
     }
@@ -101,6 +102,7 @@ public class Player : MonoBehaviour
         {
             MasterCamLookObj.transform.position = Vector3.Lerp(MasterCamLookObj.transform.position, SlaveCamLookObj.transform.position, Time.deltaTime * 2f);
         }
+
     }
 
     public void Jump()
