@@ -9,9 +9,11 @@ public class Enemy : MonoBehaviour
     public Animator Animator;
     public float Speed = 5f;
     public Action<Enemy> OnDied;
-    
+
+    private ObjectPool HitParticlePool;
     private float Health = 100f;
     private Transform target;
+
 
 
     private void Update()
@@ -21,6 +23,11 @@ public class Enemy : MonoBehaviour
     public void SetTarget(Transform target)
     {
         this.target = target;
+    }
+
+    public void SetHitParticlePool(ObjectPool hitParticlePool)
+    {
+        HitParticlePool = hitParticlePool;
     }
 
     public void Fight()
@@ -42,7 +49,7 @@ public class Enemy : MonoBehaviour
         transform.position = transform.position + unitDirection * Time.deltaTime * Speed;
     }
 
-    public void Hit()
+    public void Hit(Vector3 hitPoint)
     {
         Health -= Shooter.Damage;
 
@@ -52,7 +59,21 @@ public class Enemy : MonoBehaviour
             OnDied?.Invoke(this);
             Health = 0;
         }
+
+        StartCoroutine(PlayHitParticle(hitPoint));
     }
+
+    IEnumerator PlayHitParticle(Vector3 hitPoint)
+    {
+        var obj = HitParticlePool.GetPoolObject();
+        obj.transform.position = hitPoint;
+
+        obj.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+
+        HitParticlePool.ReturnPoolObject(obj);
+    }
+
 
     public void ResetBeforePool()
     {

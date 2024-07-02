@@ -44,7 +44,8 @@ public class Bullet : MonoBehaviour
 
             if (enemy != null) 
             {
-                enemy.Hit();
+                Vector3 hitPoint = other.ClosestPoint(transform.position);
+                enemy.Hit(hitPoint);
                 OnHit?.Invoke(this);
                 deltaMove = 0f;
             }

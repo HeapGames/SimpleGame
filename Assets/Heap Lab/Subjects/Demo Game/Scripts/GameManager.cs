@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     public Player MyPlayer;
     public ObjectPool EnemyPool;
     public ObjectPool CollectablePool;
+    public ObjectPool HitParticlePool;
+    public ObjectPool DestroyParticlePool;
+
     public List<Transform> EnemySpawnPlace;
 
     public Image UltiBar;
@@ -59,6 +62,7 @@ public class GameManager : MonoBehaviour
             GameObject enemyObj = EnemyPool.GetPoolObject();
             Enemy enemy = enemyObj.GetComponent<Enemy>();
             enemy.SetTarget(MyPlayer.transform);
+            enemy.SetHitParticlePool(HitParticlePool);
 
             float a = Random.Range(0, 2 * Mathf.PI);
 
@@ -138,7 +142,7 @@ public class GameManager : MonoBehaviour
         totalKilledEnemy++;
         score = totalKilledEnemy * 10;
 
-        if (Random.Range(0, 100) < 10)
+        if (Random.Range(0, 100) < 15)
         {
             var collectable = CollectablePool.GetPoolObject();
             collectable.transform.position = enemy.transform.position;
@@ -146,6 +150,17 @@ public class GameManager : MonoBehaviour
             collectable.GetComponent<Collectable>().SetType((CollectableType)rand_type);
             collectable.gameObject.SetActive(true);
         }
+        StartCoroutine(PlayDestroyParticle(enemy.transform.position));
+    }
+
+    IEnumerator PlayDestroyParticle(Vector3 pos)
+    {
+        var obj = DestroyParticlePool.GetPoolObject();
+        obj.transform.position = pos + Vector3.up;
+        obj.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+
+        DestroyParticlePool.ReturnPoolObject(obj);
     }
 
     private Transform FindClosestSpawnPlace()
