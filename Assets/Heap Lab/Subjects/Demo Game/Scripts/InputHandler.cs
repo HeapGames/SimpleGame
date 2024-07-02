@@ -18,23 +18,25 @@ public class InputHandler : MonoBehaviour
         // Check keyboard inputs
         if (Input.GetKey(KeyCode.W))
         {
-            delta = movingTr.forward;
+            delta = Vector3.forward;
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            delta = -movingTr.forward;
+            delta = -Vector3.forward;
         }
 
         if (Input.GetKey(KeyCode.A))
         {
-            delta -= movingTr.right;
+            delta -= Vector3.right;
             rotation = -1f;
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            delta += movingTr.right;
+            delta += Vector3.right;
             rotation = 1f;
         }
+
+        delta = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
         if (Input.GetKey(KeyCode.Space))
         {
@@ -48,7 +50,7 @@ public class InputHandler : MonoBehaviour
 
         if (!Player.IsJumping)
         {
-            Player.Run(delta,rotation);
+            Player.Run(delta,Input.GetAxis("Mouse X"));
         }
 
 

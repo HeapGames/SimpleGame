@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     public static float Power;
 
     private float MaxRunSpeed = 10f;
-    private float MaxRotationSpeed = 15f;
+    private float MaxRotationSpeed = 100f;
 
     public bool IsIdle;
     public bool IsRunning;
@@ -106,11 +106,13 @@ public class Player : MonoBehaviour
 
         if(rotation != 0)
         {
-            transform.eulerAngles += Vector3.up * rotation * Time.deltaTime * RotationSpeed;
+            //transform.eulerAngles += Vector3.up * rotation * Time.deltaTime * RotationSpeed;
+            float mouseX = rotation * RotationSpeed * Time.deltaTime;
+            transform.Rotate(0, mouseX, 0);
         }
         else
         {
-            MasterCamLookObj.transform.position = Vector3.Lerp(MasterCamLookObj.transform.position, SlaveCamLookObj.transform.position, Time.deltaTime * 2f);
+            //MasterCamLookObj.transform.position = Vector3.Lerp(MasterCamLookObj.transform.position, SlaveCamLookObj.transform.position, Time.deltaTime * 2f);
         }
 
     }

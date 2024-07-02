@@ -2,11 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
-
 public class GameManager : MonoBehaviour
 {
     public Player MyPlayer;
@@ -27,14 +27,14 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI PowerText;
     public GameObject ReplayPanel;
 
-    private float levelDuration;
-    private float levelTimer;
-    private float enemySpawnPeriod = 3f;
+    private float enemySpawnPeriod = 2f;
     private float spawnTimeCounter = 0f;
 
     private int score = 0;
     private int highScore = 0;
     private int totalKilledEnemy;
+
+    private GameConfig gameConfig;
 
     private void Awake()
     {
@@ -50,7 +50,21 @@ public class GameManager : MonoBehaviour
         }
 
         HighScoreText.text = highScore.ToString();
+        gameConfig = GameConfigService.StandardConfig;
     }
+
+    private void ApplyGameConfig()
+    {
+        if (gameConfig == null)
+        {
+            enemySpawnPeriod *= gameConfig.EnemySpawnPeriodFactor;
+            MyPlayer.RunSpeed *= gameConfig.PlayerRunSpeedFactor;
+            MyPlayer.RotationSpeed *= gameConfig.PlayerRotationSpeedFactor;
+            Player.Power *= gameConfig.PlayerPowerFactor;
+            Shooter.Damage *= gameConfig.PlayerPowerFactor;
+        }
+    }
+
 
     private void Update()
     {
@@ -114,8 +128,14 @@ public class GameManager : MonoBehaviour
         ScoreText.text = score.ToString();
         SpeedText.text = MyPlayer.RunSpeed.ToString("F1");
         PowerText.text = Shooter.Damage.ToString("F1");
-        UltiBar.fillAmount = totalKilledEnemy / 10;
+        UltiBar.fillAmount = totalKilledEnemy / 10f;
         HealthBar.fillAmount = MyPlayer.Health / 100f;
+
+        if (UltiBar.fillAmount >= 1f)
+        {
+            //Ulti mode
+            gameConfig = GameConfigService.UltiConfig;
+        }
     }
 
     private void SaveProgress()
@@ -146,7 +166,7 @@ public class GameManager : MonoBehaviour
         if (Random.Range(0, 100) < 15)
         {
             var collectable = CollectablePool.GetPoolObject();
-            collectable.transform.position = enemy.transform.position;
+            collectable.transform.position = enemy.transform.position + new Vector3(-5,0,-3);
             int rand_type = Random.Range(0, 3);
             collectable.GetComponent<Collectable>().SetType((CollectableType)rand_type);
             collectable.gameObject.SetActive(true);
