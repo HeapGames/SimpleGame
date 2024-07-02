@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public ObjectPool CollectablePool;
     public ObjectPool HitParticlePool;
     public ObjectPool DestroyParticlePool;
+    public GameObject HighestScoreParticle;
 
     public List<Transform> EnemySpawnPlace;
 

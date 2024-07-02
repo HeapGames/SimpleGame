@@ -59,8 +59,11 @@ public class Enemy : MonoBehaviour
             OnDied?.Invoke(this);
             Health = 0;
         }
+        else
+        {
+            StartCoroutine(PlayHitParticle(hitPoint));
+        }
 
-        StartCoroutine(PlayHitParticle(hitPoint));
     }
 
     IEnumerator PlayHitParticle(Vector3 hitPoint)
@@ -69,7 +72,7 @@ public class Enemy : MonoBehaviour
         obj.transform.position = hitPoint;
 
         obj.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
 
         HitParticlePool.ReturnPoolObject(obj);
     }

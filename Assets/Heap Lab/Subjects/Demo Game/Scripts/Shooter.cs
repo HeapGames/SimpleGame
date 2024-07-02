@@ -60,14 +60,12 @@ public class Shooter : MonoBehaviour
 
     private void OnBulletHit(Bullet bullet)
     {
-        //bullet.OnHit -= OnBulletHit;
         Bullets.Remove(bullet);
         BulletPool.ReturnPoolObject(bullet.gameObject);
     }
 
     private void OnBulletOutOfRange(Bullet bullet)
     {
-        //bullet.OnOutOfRange -= OnBulletOutOfRange;
         Bullets.Remove(bullet);
         BulletPool.ReturnPoolObject(bullet.gameObject);
     }
