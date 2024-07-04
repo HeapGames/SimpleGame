@@ -188,7 +188,7 @@ public class Player : MonoBehaviour
     {
         if(other.CompareTag("enemy"))
         {
-            Health -= Time.deltaTime *5f;
+            Health -= Time.deltaTime * 10f;
         }
         else if(other.CompareTag("collectable"))
         {

@@ -27,8 +27,9 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI PowerText;
     public GameObject ReplayPanel;
     public Light Light;
+    public ParticleSystem PlayerUltiParticle;
 
-    private float enemySpawnPeriod = 2f;
+    private float enemySpawnPeriod = 1.5f;
     private float spawnTimeCounter = 0f;
 
     private int score = 0;
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
     private int totalKilledEnemy;
 
     private GameConfig gameConfig;
+    private bool IsFirstGame = true;
     public static bool IsUltiMode = false;
 
     private void Start()
@@ -46,6 +48,7 @@ public class GameManager : MonoBehaviour
         if (PlayerPrefs.HasKey("high_score"))
         {
             highScore = PlayerPrefs.GetInt("high_score");
+            IsFirstGame = false;
         }
         else
         {
@@ -59,7 +62,7 @@ public class GameManager : MonoBehaviour
 
     private void ResetParameters()
     {
-        enemySpawnPeriod = 2f;
+        enemySpawnPeriod = 1.5f;
         MyPlayer.ResetParams();
     }
 
@@ -78,7 +81,8 @@ public class GameManager : MonoBehaviour
     IEnumerator UltiMode()
     {
         IsUltiMode = true;
-        Light.color = new Color(0.69f,0.71f,0.98f,1f);
+        PlayerUltiParticle.Play();
+        Light.color = new Color(1f,0.79f,0.79f,1f);
         Light.intensity = 1.1f;
         gameConfig = GameConfigService.UltiConfig;
         ApplyGameConfig();
@@ -98,6 +102,7 @@ public class GameManager : MonoBehaviour
         killedEnemyCounter = 0;
         Light.color = Color.white;
         Light.intensity = 1f;
+        PlayerUltiParticle.Stop();
 
     }
 
@@ -109,7 +114,6 @@ public class GameManager : MonoBehaviour
         {
             spawnTimeCounter = 0;
 
-            Transform spawnPlace = FindClosestSpawnPlace();
             GameObject enemyObj = EnemyPool.GetPoolObject();
             Enemy enemy = enemyObj.GetComponent<Enemy>();
             enemy.SetTarget(MyPlayer.transform);
@@ -118,7 +122,7 @@ public class GameManager : MonoBehaviour
             float a = Random.Range(0, 2 * Mathf.PI);
 
             // Bu açýya göre spawn noktasýný hesapla
-            Vector3 spawnPosition = MyPlayer.transform.position + new Vector3(Mathf.Cos(a),0f, Mathf.Sin(a)) * 20f;
+            Vector3 spawnPosition = MyPlayer.transform.position + new Vector3(Mathf.Cos(a),0f, Mathf.Sin(a)) * 16f;
             spawnPosition.y = 0f;
             enemy.transform.position = spawnPosition;
             //enemy.transform.position = spawnPlace.transform.position; // + Vector3.down * 3f;
@@ -145,17 +149,26 @@ public class GameManager : MonoBehaviour
 
         UpdateUI();
 
+        if (score > highScore)
+        {
+            HighScoreText.text = highScore.ToString();
+
+            if (!IsFirstGame) 
+            { 
+                //HighestScoreParticle.SetActive(true);
+            }
+        }
+
         if (MyPlayer.Health <= 0f)
         {
             //Level end
+            Time.timeScale = 0f;
+            ShowRestartPopup();
+
             if (score > highScore)
             {
                 SaveProgress();
-                HighScoreText.text = highScore.ToString();
             }
-
-            Time.timeScale = 0f;
-            ShowRestartPopup();
         }
 
 
@@ -163,7 +176,6 @@ public class GameManager : MonoBehaviour
         {
             //Ulti mode
             StartCoroutine(UltiMode());
-            totalKilledEnemy += killedEnemyCounter;
             killedEnemyCounter = 0;
         }
     }
@@ -204,7 +216,8 @@ public class GameManager : MonoBehaviour
         enemy.ResetBeforePool();
         EnemyPool.ReturnPoolObject(enemy.gameObject);
         killedEnemyCounter++;
-        score = killedEnemyCounter * 10;
+        totalKilledEnemy++;
+        score = totalKilledEnemy * 10;
 
         if (Random.Range(0, 100) < 15)
         {
@@ -225,26 +238,6 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         DestroyParticlePool.ReturnPoolObject(obj);
-    }
-
-    private Transform FindClosestSpawnPlace()
-    {
-        int minDistIndex = -1;
-        float MinDistance = 1000000000;
-
-        for (int i = 0; i < EnemySpawnPlace.Count; i++)
-        {
-            var spawner = EnemySpawnPlace[i];
-            float dist = Vector3.Distance(spawner.position, MyPlayer.transform.position);
-
-            if(dist < MinDistance)
-            {
-                MinDistance = dist;
-                minDistIndex = i;
-            }
-        }
-
-        return EnemySpawnPlace[minDistIndex];
     }
 
 
@@ -276,5 +269,9 @@ public class GameManager : MonoBehaviour
         return EnemyPool.ActivePoolObjects[minDistIndex].transform;
     }
 
+    private void OnApplicationQuit()
+    {
+        SaveProgress();
+    }
 
 }

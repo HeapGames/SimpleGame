@@ -35,7 +35,7 @@ public static class GameConfigService
     {
         get
         {
-            return new GameConfig(1.7f, 0f, 2.5f, 3f, 1.2f, 5f, 2f, 0.4f);
+            return new GameConfig(1.7f, 0f, 2.5f, 3f, 1.2f, 5f, 2f, 0.12f);
         }
     }
 
