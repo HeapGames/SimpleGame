@@ -26,17 +26,20 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI SpeedText;
     public TextMeshProUGUI PowerText;
     public GameObject ReplayPanel;
+    public Light Light;
 
     private float enemySpawnPeriod = 2f;
     private float spawnTimeCounter = 0f;
 
     private int score = 0;
     private int highScore = 0;
+    private int killedEnemyCounter;
     private int totalKilledEnemy;
 
     private GameConfig gameConfig;
+    public static bool IsUltiMode = false;
 
-    private void Awake()
+    private void Start()
     {
         Time.timeScale = 1f;
 
@@ -51,18 +54,51 @@ public class GameManager : MonoBehaviour
 
         HighScoreText.text = highScore.ToString();
         gameConfig = GameConfigService.StandardConfig;
+        ApplyGameConfig();
+    }
+
+    private void ResetParameters()
+    {
+        enemySpawnPeriod = 2f;
+        MyPlayer.ResetParams();
     }
 
     private void ApplyGameConfig()
     {
-        if (gameConfig == null)
+        ResetParameters();
+
+        if (gameConfig != null)
         {
             enemySpawnPeriod *= gameConfig.EnemySpawnPeriodFactor;
             MyPlayer.RunSpeed *= gameConfig.PlayerRunSpeedFactor;
-            MyPlayer.RotationSpeed *= gameConfig.PlayerRotationSpeedFactor;
-            Player.Power *= gameConfig.PlayerPowerFactor;
-            Shooter.Damage *= gameConfig.PlayerPowerFactor;
+            MyPlayer.Power *= gameConfig.PlayerPowerFactor;
         }
+    }
+
+    IEnumerator UltiMode()
+    {
+        IsUltiMode = true;
+        Light.color = new Color(0.69f,0.71f,0.98f,1f);
+        Light.intensity = 1.1f;
+        gameConfig = GameConfigService.UltiConfig;
+        ApplyGameConfig();
+        while(true)
+        {
+            UltiBar.fillAmount -= Time.deltaTime * 0.05f;
+            if(UltiBar.fillAmount <= 0f)
+            {
+                break;
+            }
+            yield return null;
+        }
+
+        gameConfig = GameConfigService.StandardConfig;
+        ApplyGameConfig();
+        IsUltiMode = false;
+        killedEnemyCounter = 0;
+        Light.color = Color.white;
+        Light.intensity = 1f;
+
     }
 
 
@@ -92,7 +128,7 @@ public class GameManager : MonoBehaviour
 
 
 
-        Transform close_enemy = FindClosestEnemy(Shooter.Range);
+        Transform close_enemy = FindClosestEnemy(MyPlayer.Shooter.Range);
         float angle = -1;
 
         if (close_enemy != null)
@@ -105,7 +141,7 @@ public class GameManager : MonoBehaviour
             }
         }
         Debug.Log("angle : " + angle);
-        MyPlayer.Shooter.ShootingActive = close_enemy != null & !MyPlayer.IsJumping;
+        MyPlayer.Shooter.UpdateShootingActivity(close_enemy != null & !MyPlayer.IsJumping, MyPlayer.Power);
 
         UpdateUI();
 
@@ -121,20 +157,27 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0f;
             ShowRestartPopup();
         }
+
+
+        if (killedEnemyCounter >= 5 && !IsUltiMode)
+        {
+            //Ulti mode
+            StartCoroutine(UltiMode());
+            totalKilledEnemy += killedEnemyCounter;
+            killedEnemyCounter = 0;
+        }
     }
 
     private void UpdateUI()
     {
         ScoreText.text = score.ToString();
         SpeedText.text = MyPlayer.RunSpeed.ToString("F1");
-        PowerText.text = Shooter.Damage.ToString("F1");
-        UltiBar.fillAmount = totalKilledEnemy / 10f;
+        PowerText.text = MyPlayer.Power.ToString("F1");
         HealthBar.fillAmount = MyPlayer.Health / 100f;
 
-        if (UltiBar.fillAmount >= 1f)
+        if (!IsUltiMode)
         {
-            //Ulti mode
-            gameConfig = GameConfigService.UltiConfig;
+            UltiBar.fillAmount = killedEnemyCounter / 5f;
         }
     }
 
@@ -160,8 +203,8 @@ public class GameManager : MonoBehaviour
         enemy.OnDied -= OnEnemyKill;
         enemy.ResetBeforePool();
         EnemyPool.ReturnPoolObject(enemy.gameObject);
-        totalKilledEnemy++;
-        score = totalKilledEnemy * 10;
+        killedEnemyCounter++;
+        score = killedEnemyCounter * 10;
 
         if (Random.Range(0, 100) < 15)
         {

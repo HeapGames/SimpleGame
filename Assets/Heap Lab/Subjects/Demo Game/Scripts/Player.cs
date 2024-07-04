@@ -15,28 +15,34 @@ public class Player : MonoBehaviour
     public Transform SlaveCamLookObj;
 
 
-    public float RunSpeed = 5f;
+    public float RunSpeed = 3f;
+    public float RotationSpeed = 100f;
+
     public float JumpHeight = 1f;
     public float JumpSpeed = 1f;
-    public float RotationSpeed = 5f;
 
     public float Health = 1f;
-    public static float Power;
+    public float Power = 1f;
 
     private float MaxRunSpeed = 10f;
     private float MaxRotationSpeed = 100f;
+    private float MaxPower = 10f;
 
     public bool IsIdle;
     public bool IsRunning;
     public bool IsJumping;
 
     private Vector3 velocity;
+    private int collectedRedBox;
+    private int collectedPurpleBox;
+    private int collectedGreenBox;
 
-    private void Awake()
+    public void ResetParams()
     {
-        Power = Shooter.Damage / 100f;
+        RunSpeed = 3f + collectedRedBox * 0.2f;
+        RotationSpeed = 100f + 2f * collectedRedBox;
+        Power = 1f + 0.1f * collectedPurpleBox;
     }
-
 
     public void Idle()
     {
@@ -46,7 +52,8 @@ public class Player : MonoBehaviour
     public void Rotate(Vector3 axis)
     {
         //RotateCharacterToMouse();
-        //RotateCharacterToPosition(axis);
+        if(GameManager.IsUltiMode)
+            RotateCharacterToPosition(axis);
     }
 
    
@@ -104,16 +111,20 @@ public class Player : MonoBehaviour
         Vector3 deltaPosition = velocity * Time.deltaTime;
         movingTr.position = movingTr.position + deltaPosition * RunSpeed;
 
-        if(rotation != 0)
+        if(!GameManager.IsUltiMode)
         {
-            //transform.eulerAngles += Vector3.up * rotation * Time.deltaTime * RotationSpeed;
-            float mouseX = rotation * RotationSpeed * Time.deltaTime;
-            transform.Rotate(0, mouseX, 0);
+            if (rotation != 0)
+            {
+                //transform.eulerAngles += Vector3.up * rotation * Time.deltaTime * RotationSpeed;
+                float mouseX = rotation * RotationSpeed * Time.deltaTime;
+                transform.Rotate(0, mouseX, 0);
+            }
+            else
+            {
+                //MasterCamLookObj.transform.position = Vector3.Lerp(MasterCamLookObj.transform.position, SlaveCamLookObj.transform.position, Time.deltaTime * 2f);
+            }
         }
-        else
-        {
-            //MasterCamLookObj.transform.position = Vector3.Lerp(MasterCamLookObj.transform.position, SlaveCamLookObj.transform.position, Time.deltaTime * 2f);
-        }
+
 
     }
 
@@ -182,22 +193,26 @@ public class Player : MonoBehaviour
         else if(other.CompareTag("collectable"))
         {
             Collectable collectable = other.gameObject.GetComponent<Collectable>();
+
+            
             switch (collectable.CollectableType)
             {
                 case CollectableType.SpeedUp:
-                    RunSpeed += 0.5f;
+                    RunSpeed += 0.2f;
                     RotationSpeed += 2f;
                     RunSpeed = Mathf.Clamp(RunSpeed, 1f, MaxRunSpeed);
                     RotationSpeed = Mathf.Clamp(RotationSpeed, 1f, MaxRotationSpeed);
+                    collectedRedBox++;
                     break;
                 case CollectableType.PowerUp:
-                    Shooter.Damage += 2f;
-                    Shooter.Damage = Mathf.Clamp(Shooter.Damage, 1f, 100f);
-                    Power = Shooter.Damage / 100f;
+                    Power += 0.1f;
+                    Power = Mathf.Clamp(Power, 1f, MaxPower);
+                    collectedPurpleBox++;
                     break;
                 case CollectableType.Healer:
                     Health += 20f;
                     Health = Mathf.Clamp(Health, 0f, 100f);
+                    collectedGreenBox++;
                     break;
                 default:
                     break;

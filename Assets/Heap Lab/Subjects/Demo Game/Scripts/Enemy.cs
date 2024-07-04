@@ -14,8 +14,6 @@ public class Enemy : MonoBehaviour
     private float Health = 100f;
     private Transform target;
 
-
-
     private void Update()
     {
         Fight();
@@ -49,9 +47,9 @@ public class Enemy : MonoBehaviour
         transform.position = transform.position + unitDirection * Time.deltaTime * Speed;
     }
 
-    public void Hit(Vector3 hitPoint)
+    public void Hit(Vector3 hitPoint, float damage)
     {
-        Health -= Shooter.Damage;
+        Health -= damage;
 
         if (Health <= 0)
         {

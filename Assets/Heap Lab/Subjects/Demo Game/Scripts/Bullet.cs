@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
     private bool go = false;
     private Vector3 direction;
     private float deltaMove;
+    private float damage;
 
     public Action<Bullet> OnOutOfRange;
     public Action<Bullet> OnHit;
@@ -30,10 +31,11 @@ public class Bullet : MonoBehaviour
             }
         }
     }
-    public void Go(Vector3 dir)
+    public void Go(Vector3 dir, float damage)
     {
         direction = dir.normalized;
         go = true;
+        this.damage = damage;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -45,7 +47,7 @@ public class Bullet : MonoBehaviour
             if (enemy != null) 
             {
                 Vector3 hitPoint = other.ClosestPoint(transform.position);
-                enemy.Hit(hitPoint);
+                enemy.Hit(hitPoint, damage);
                 OnHit?.Invoke(this);
                 deltaMove = 0f;
             }

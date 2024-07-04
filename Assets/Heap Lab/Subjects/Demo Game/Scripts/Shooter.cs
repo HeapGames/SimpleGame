@@ -9,17 +9,19 @@ public class Shooter : MonoBehaviour
 
     public Transform BulletSpawnRef;
 
-    public static float Period = 1.0f;
+    public float Period = 1.0f;
 
-    public static float Damage = 100f;
+    public float Damage = 35f;
 
-    public static float Range = 500f;
+    public float Range = 500f;
 
     public bool ShootingActive = false;
 
     public List<Bullet> Bullets;
 
     float timer = 0;
+
+    private float power;
 
     private void Update()
     {
@@ -38,6 +40,12 @@ public class Shooter : MonoBehaviour
         }
     }
 
+    public void UpdateShootingActivity(bool val, float power)
+    {
+        ShootingActive = val;
+        this.power = power;
+    }
+
 
 
     private void MoveBullet()
@@ -45,8 +53,9 @@ public class Shooter : MonoBehaviour
         var obj = BulletPool.GetPoolObject();
         obj.transform.position = BulletSpawnRef.position;
         obj.SetActive(true);
-        obj.transform.localScale = Vector3.one * 0.5f * Player.Power;
-        Period = 0.1f / Player.Power;
+        //obj.transform.localScale = Vector3.one * 0.5f * power;
+        Period = 0.25f / power;
+        Damage = 35f * power;
 
         var bullet = obj.GetComponent<Bullet>();
 
@@ -54,7 +63,7 @@ public class Shooter : MonoBehaviour
         {
             bullet.OnOutOfRange = OnBulletOutOfRange;
             bullet.OnHit = OnBulletHit;
-            bullet.Go(transform.forward);
+            bullet.Go(transform.forward, Damage);
         }
     }
 

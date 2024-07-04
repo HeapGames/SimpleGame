@@ -412,7 +412,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.3
+  m_fontSize: 70
   m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2753,7 +2753,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48.8
+  m_fontSize: 70
   m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3519,7 +3519,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.79}
   m_AnchorMax: {x: 0.12, y: 0.85}
-  m_AnchoredPosition: {x: 0, y: -30.1}
+  m_AnchoredPosition: {x: 0, y: -30.099976}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1071331307
@@ -3986,7 +3986,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.3
+  m_fontSize: 70
   m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4120,7 +4120,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18.95
+  m_fontSize: 20
   m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4345,6 +4345,7 @@ MonoBehaviour:
   SpeedText: {fileID: 1438909252}
   PowerText: {fileID: 1198023581}
   ReplayPanel: {fileID: 1129755986}
+  Light: {fileID: 1972762849}
 --- !u!4 &1288106961
 Transform:
   m_ObjectHideFlags: 0
@@ -4661,7 +4662,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.3
+  m_fontSize: 70
   m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7354,10 +7355,11 @@ MonoBehaviour:
   MasterCamLookObj: {fileID: 1254271457}
   SlaveCamLookObj: {fileID: 2041256225}
   RunSpeed: 4
+  RotationSpeed: 100
   JumpHeight: 4
   JumpSpeed: 8
-  RotationSpeed: 100
   Health: 100
+  Power: 1
   IsIdle: 0
   IsRunning: 0
   IsJumping: 0
@@ -7396,6 +7398,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BulletPool: {fileID: 21673887}
   BulletSpawnRef: {fileID: 1213307024}
+  Period: 1
+  Damage: 35
+  Range: 500
   ShootingActive: 0
   Bullets: []
 --- !u!1660057539 &9223372036854775807
